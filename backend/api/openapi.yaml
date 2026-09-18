@@ -3,6 +3,11 @@ info: {title: MindGarden API, version: 1.0.0}
 paths:
   /v1/auth/register: {post: {summary: Register}}
   /v1/auth/login: {post: {summary: Login}}
-  /v1/moods: {get: {summary: List moods}, post: {summary: Create mood}}
+  /v1/moods: {get: {summary: List active moods}, post: {summary: Create mood}}
+  /v1/moods/trash: {get: {summary: List moods in the seven-day recycle bin}}
+  /v1/moods/{id}:
+    put: {summary: Update mood}
+    delete: {summary: Move mood to the seven-day recycle bin}
+  /v1/moods/{id}/restore: {post: {summary: Restore a mood from the recycle bin}}
   /v1/assessments: {get: {summary: List assessments}}
   /v1/journals: {get: {summary: List journals}, post: {summary: Create journal}}

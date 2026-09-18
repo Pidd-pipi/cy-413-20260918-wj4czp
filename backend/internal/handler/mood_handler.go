@@ -26,6 +26,15 @@ func (h *MoodHandler) List(c *gin.Context) {
 	h.logger.Info(constants.LogMoodListed)
 	ok(c, v)
 }
+func (h *MoodHandler) ListTrash(c *gin.Context) {
+	v, e := h.s.ListTrash(middleware.UserID(c))
+	if e != nil {
+		c.Error(e)
+		return
+	}
+	h.logger.Info(constants.LogMoodTrashListed)
+	ok(c, v)
+}
 func (h *MoodHandler) Create(c *gin.Context) {
 	var r dto.MoodRequest
 	if !bind(c, &r) {
@@ -66,4 +75,17 @@ func (h *MoodHandler) Delete(c *gin.Context) {
 		return
 	}
 	ok(c, gin.H{"deleted": id})
+}
+func (h *MoodHandler) Restore(c *gin.Context) {
+	id, e := strconv.ParseUint(c.Param("id"), 10, 64)
+	if e != nil {
+		c.Error(util.NewAppError(constants.CodeValidation, "Mood[id] restore failed: invalid id", e))
+		return
+	}
+	v, e := h.s.Restore(middleware.UserID(c), uint(id))
+	if e != nil {
+		c.Error(e)
+		return
+	}
+	ok(c, v)
 }

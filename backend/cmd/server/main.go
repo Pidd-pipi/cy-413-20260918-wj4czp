@@ -41,6 +41,11 @@ func main() {
 	ms := service.NewMoodService(mr, logger)
 	as := service.NewAssessmentService(ar, logger)
 	js := service.NewJournalService(jr, logger)
+	if n, e := ms.PurgeExpired(); e != nil {
+		logger.Error("mood trash purge failed", "error", e)
+	} else if n > 0 {
+		logger.Info(constants.LogMoodPurged, "count", n)
+	}
 	if e = as.Seed(); e != nil {
 		logger.Error("assessment seed failed", "error", e)
 		os.Exit(1)
