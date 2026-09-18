@@ -1,0 +1,1 @@
+import {useEffect,useState} from 'react';import {themeStore} from '../stores/themeStore';export function useTheme(){const [theme,setTheme]=useState(themeStore.get());useEffect(()=>{const h=()=>setTheme(themeStore.get());window.addEventListener('mindgarden-theme',h);return()=>window.removeEventListener('mindgarden-theme',h)},[]);return {theme,setTheme:themeStore.set}}

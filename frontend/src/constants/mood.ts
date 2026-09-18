@@ -1,0 +1,1 @@
+import type {MoodTag} from '../types'; export const MoodTagValues={HAPPY:'happy',ANXIOUS:'anxious',TIRED:'tired',ANGRY:'angry',CALM:'calm'} as const; export const MOOD_LABELS:Record<MoodTag,string>={happy:'开心',anxious:'焦虑',tired:'疲惫',angry:'愤怒',calm:'平静'}; export const MOOD_EMOJI:Record<MoodTag,string>={happy:'😊',anxious:'😟',tired:'😴',angry:'😤',calm:'😌'};

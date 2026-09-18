@@ -1,0 +1,1 @@
+import {request} from '../utils/request';import type {Assessment,UserAssessment} from '../types';export const listAssessments=()=>request<Assessment[]>('/assessments');export const takeAssessment=(id:number,answers:number[])=>request<UserAssessment>(`/assessments/${id}/take`,{method:'POST',body:JSON.stringify({answers})});

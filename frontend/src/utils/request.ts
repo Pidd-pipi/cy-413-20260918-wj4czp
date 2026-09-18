@@ -1,0 +1,2 @@
+import type {ApiResponse} from '../types';
+export async function request<T>(path:string, options:RequestInit={}):Promise<T>{const token=localStorage.getItem('mindgarden_token');const response=await fetch(`/api/v1${path}`,{...options,headers:{'Content-Type':'application/json',...(token?{Authorization:`Bearer ${token}`}:{}) ,...(options.headers||{})}});const body=await response.json() as ApiResponse<T>;if(!response.ok||body.code!==0){if(body.code===1002)localStorage.removeItem('mindgarden_token');throw new Error(body.message||'请求失败')}return body.data}

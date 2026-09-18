@@ -1,0 +1,1 @@
+import {useMemo} from 'react';import type {Mood} from '../types';export function useMoodStats(moods:Mood[]){return useMemo(()=>({average:moods.length?Math.round(moods.reduce((sum,m)=>sum+m.mood_level,0)/moods.length*10)/10:0,count:moods.length}),[moods])}

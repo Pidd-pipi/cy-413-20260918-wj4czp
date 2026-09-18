@@ -1,0 +1,1 @@
+export type ThemeName='light'|'dark'|'lavender'; export const THEMES:Record<ThemeName,{label:string;color:string}>={light:{label:'晨雾绿',color:'#3f8f6b'},dark:{label:'夜间花园',color:'#84d6a8'},lavender:{label:'薰衣草',color:'#8377d1'}};

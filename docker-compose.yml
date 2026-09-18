@@ -1,0 +1,54 @@
+name: mindgarden
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: ${COMPOSE_PROJECT_NAME:-mindgarden}-db
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      DB_ADMIN_PASSWORD: ${DB_ADMIN_PASSWORD}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - mindgarden_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 5s
+      timeout: 5s
+      retries: 15
+    networks: [mindgarden_net]
+  backend:
+    build: ./backend
+    container_name: ${COMPOSE_PROJECT_NAME:-mindgarden}-backend
+    environment:
+      PORT: 8080
+      DATABASE_URL: host=db user=${DB_USER} password=${DB_PASSWORD} dbname=${DB_NAME} port=5432 sslmode=disable TimeZone=Asia/Shanghai
+      JWT_SECRET: ${JWT_SECRET}
+      CORS_ORIGIN: http://localhost:${FRONTEND_PORT:-18413}
+    ports:
+      - "${BACKEND_PORT:-19413}:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/healthz >/dev/null 2>&1"]
+      interval: 5s
+      timeout: 5s
+      retries: 15
+      start_period: 10s
+    networks: [mindgarden_net]
+  frontend:
+    build: ./frontend
+    container_name: ${COMPOSE_PROJECT_NAME:-mindgarden}-frontend
+    ports:
+      - "${FRONTEND_PORT:-18413}:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks: [mindgarden_net]
+volumes:
+  mindgarden_postgres_data:
+networks:
+  mindgarden_net:
+    driver: bridge

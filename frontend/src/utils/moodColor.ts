@@ -1,0 +1,1 @@
+import type {MoodTag} from '../types'; export function moodColor(level:number){return level>=8?'#52c41a':level>=6?'#95de64':level>=4?'#faad14':'#ff7875'} export function tagColor(tag:MoodTag){return {happy:'gold',anxious:'orange',tired:'blue',angry:'red',calm:'green'}[tag]}

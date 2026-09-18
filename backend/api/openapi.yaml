@@ -1,0 +1,8 @@
+openapi: 3.0.3
+info: {title: MindGarden API, version: 1.0.0}
+paths:
+  /v1/auth/register: {post: {summary: Register}}
+  /v1/auth/login: {post: {summary: Login}}
+  /v1/moods: {get: {summary: List moods}, post: {summary: Create mood}}
+  /v1/assessments: {get: {summary: List assessments}}
+  /v1/journals: {get: {summary: List journals}, post: {summary: Create journal}}

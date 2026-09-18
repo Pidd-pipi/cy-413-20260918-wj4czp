@@ -1,0 +1,1 @@
+import type {ThemeName} from '../constants/themes';import {applyTheme} from '../utils/themeUtils';let current=(localStorage.getItem('mindgarden_theme')||'light') as ThemeName;export const themeStore={get:()=>current,set:(name:ThemeName)=>{current=name;applyTheme(name);window.dispatchEvent(new Event('mindgarden-theme'))}};

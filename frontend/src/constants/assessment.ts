@@ -1,0 +1,1 @@
+import type {AssessmentCategory} from '../types'; export const AssessmentCategoryValues={ANXIETY:'anxiety',DEPRESSION:'depression',STRESS:'stress',SLEEP:'sleep'} as const; export const ASSESSMENT_LABELS:Record<AssessmentCategory,string>={anxiety:'焦虑',depression:'抑郁',stress:'压力',sleep:'睡眠'};

@@ -1,0 +1,1 @@
+import type {User} from '../types'; export const userStore={get():User|undefined{const raw=localStorage.getItem('mindgarden_user');return raw?JSON.parse(raw):undefined},set(user:User){localStorage.setItem('mindgarden_user',JSON.stringify(user))}};
