@@ -15,3 +15,8 @@ func AssessmentText(c string) string {
 	return m[c]
 }
 func ThemeColor(t string) string { return constants.ThemeColors[t] }
+
+// MoodTrashExpiresAt 返回记录从回收站到期（被永久清除）的时刻。
+func MoodTrashExpiresAt(deletedAt time.Time) time.Time {
+	return deletedAt.Add(constants.MoodTrashRetention)
+}

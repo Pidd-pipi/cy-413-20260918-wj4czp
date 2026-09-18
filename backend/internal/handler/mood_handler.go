@@ -65,5 +65,27 @@ func (h *MoodHandler) Delete(c *gin.Context) {
 		c.Error(e)
 		return
 	}
-	ok(c, gin.H{"deleted": id})
+	ok(c, gin.H{"deleted": id, "message": constants.MessageMoodRemoved})
+}
+func (h *MoodHandler) TrashList(c *gin.Context) {
+	v, e := h.s.TrashList(middleware.UserID(c))
+	if e != nil {
+		c.Error(e)
+		return
+	}
+	h.logger.Info(constants.LogMoodTrashListed)
+	ok(c, v)
+}
+func (h *MoodHandler) Restore(c *gin.Context) {
+	id, e := strconv.ParseUint(c.Param("id"), 10, 64)
+	if e != nil {
+		c.Error(e)
+		return
+	}
+	v, e := h.s.Restore(middleware.UserID(c), uint(id))
+	if e != nil {
+		c.Error(e)
+		return
+	}
+	ok(c, v)
 }

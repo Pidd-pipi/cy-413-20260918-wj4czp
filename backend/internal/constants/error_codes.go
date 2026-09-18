@@ -10,4 +10,4 @@ const (
 	CodeInternal     = 1500
 )
 
-var ErrorCodeHints = map[string]string{"Mood[mood_level]": "1-10", "Mood[mood_tags]": "happy/anxious/tired/angry/calm", "Assessment[category]": "anxiety/depression/stress/sleep"}
+var ErrorCodeHints = map[string]string{"Mood[mood_level]": "1-10", "Mood[mood_tags]": "happy/anxious/tired/angry/calm", "Mood[deleted_at]": "recycle trash retention is 7 days", "Assessment[category]": "anxiety/depression/stress/sleep"}

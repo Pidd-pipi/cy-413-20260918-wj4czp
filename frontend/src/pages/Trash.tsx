@@ -1,0 +1,7 @@
+import {Button,Card,Popconfirm,Space,Tag,Typography,message} from 'antd';import dayjs from 'dayjs';import {useEffect,useState} from 'react';import {useNavigate} from 'react-router-dom';import {listTrashMoods,restoreMood} from '../api/mood';
+import {EmptyState} from '../components/common/EmptyState';
+import {MoodCard} from '../components/common/MoodCard';
+import type {MoodTrashItem} from '../types';
+export function Trash(){const nav=useNavigate();const [items,setItems]=useState<MoodTrashItem[]>([]);const load=()=>listTrashMoods().then(setItems).catch(e=>message.error(e.message));useEffect(()=>{load()},[]);
+const remainingDays=(expiresAt:string)=>Math.max(0,Math.ceil(dayjs(expiresAt).diff(dayjs(),'day',true)));
+return <><Typography.Title>情绪回收站</Typography.Title><Card className="filter-bar"><span className="muted">移除的记录会立即退出列表、筛选和本周曲线，七天内可按原日期还原；过期后永久消失。</span><Space><Button onClick={()=>nav('/moods')}>返回情绪记录</Button></Space></Card><Card title={`回收站 (${items.length})`}>{items.length?<div className="card-list">{items.map(m=><div key={m.id}><MoodCard mood={m}/><Space style={{marginTop:8}}><Tag color="orange">剩余 {remainingDays(m.expires_at)} 天</Tag><Popconfirm title="按原日期还原这条记录？" onConfirm={async()=>{try{await restoreMood(m.id);message.success('记录已还原到原日期');load()}catch(e){message.error((e as Error).message)}}}><Button size="small" type="primary">还原</Button></Popconfirm></Space></div>)}</div>:<EmptyState title="回收站是空的，没有等待还原的情绪记录"/>}</Card></>}

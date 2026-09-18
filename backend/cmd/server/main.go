@@ -41,6 +41,9 @@ func main() {
 	ms := service.NewMoodService(mr, logger)
 	as := service.NewAssessmentService(ar, logger)
 	js := service.NewJournalService(jr, logger)
+	janitorStop := make(chan struct{})
+	defer close(janitorStop)
+	go service.StartMoodTrashJanitor(ms, janitorStop)
 	if e = as.Seed(); e != nil {
 		logger.Error("assessment seed failed", "error", e)
 		os.Exit(1)

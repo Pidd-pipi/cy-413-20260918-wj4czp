@@ -11,4 +11,6 @@ func RegisterMoods(g *gin.RouterGroup, h *handler.MoodHandler, auth gin.HandlerF
 	p.POST("", h.Create)
 	p.PUT("/:id", h.Update)
 	p.DELETE("/:id", h.Delete)
+	p.GET("/trash", h.TrashList)
+	p.POST("/:id/restore", h.Restore)
 }

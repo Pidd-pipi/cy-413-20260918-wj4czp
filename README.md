@@ -21,6 +21,7 @@ MindGarden 是一款用于温柔记录每日心情、完成轻量自我觉察测
 
 - **心情花园**：记录 1–10 的心情指数、多个情绪标签和备注，查看最近趋势曲线。
 - **情绪记录**：按日期筛选，保存情绪列表；`MoodSelector` 在 Dashboard 和 Moods 页面共享。
+- **七天回收站**：移除情绪记录后立即退出列表、筛选和本周曲线；七天内可在回收站按原日期还原（日期、等级、标签、备注不变），超过七天永久清除；重复移除/重复还原结果保持一致，回收站仅显示当前账号的记录。
 - **心理测评**：浏览压力/睡眠测评，答题后得到分数、结果和关照建议。
 - **日记本**：写作私密日记，记录天气和心情，并用时间轴回顾；`MoodCard` 同时服务情绪记录和日记页。
 - **个人中心**：修改资料、头像链接，查看完成过的测评报告。
@@ -88,7 +89,9 @@ Vite 会把本地 `/api` 请求重写到 `http://localhost:19413/v1`；Docker �
 | GET / PUT | `/api/v1/users/me` | 读取/更新个人资料 |
 | GET | `/api/v1/users/reports` | 测评报告汇总 |
 | GET / POST | `/api/v1/moods` | 查询（支持 `date`）/创建情绪 |
-| PUT / DELETE | `/api/v1/moods/:id` | 修改/删除情绪 |
+| PUT / DELETE | `/api/v1/moods/:id` | 修改/移入七天回收站 |
+| GET | `/api/v1/moods/trash` | 查看当前账号回收站（仅未过期记录，含到期时间） |
+| POST | `/api/v1/moods/:id/restore` | 按原日期还原（重复还原幂等） |
 | GET | `/api/v1/assessments` | 测评列表 |
 | POST | `/api/v1/assessments/:id/take` | 提交答案与生成结果 |
 | POST | `/api/v1/assessments` | 创建测评（仅 admin） |
